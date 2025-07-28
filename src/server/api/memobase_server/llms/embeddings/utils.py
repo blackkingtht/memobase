@@ -1,5 +1,8 @@
+import logging
+
 from openai import AsyncOpenAI
 from httpx import AsyncClient
+import httpx
 from ...env import CONFIG
 
 _global_openai_async_client = None
@@ -12,6 +15,7 @@ def get_openai_async_client_instance() -> AsyncOpenAI:
         _global_openai_async_client = AsyncOpenAI(
             base_url=CONFIG.embedding_base_url,
             api_key=CONFIG.embedding_api_key,
+            http_client=httpx.AsyncClient(params={"api-version": "2024-02-01"})
         )
     return _global_openai_async_client
 
